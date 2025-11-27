@@ -1,6 +1,5 @@
 {
   "version": 2,
-  "name": "taskmaster-demo",
   "builds": [
     {
       "src": "package.json",
@@ -10,17 +9,10 @@
       }
     }
   ],
-  "routes": [
+  "rewrites": [
     {
-      "src": "/assets/(.*)",
-      "dest": "/assets/$1",
-      "headers": {
-        "Cache-Control": "public, max-age=31536000, immutable"
-      }
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/index.html"
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ],
   "headers": [
@@ -69,20 +61,15 @@
     }
   ],
   "env": {
-    "VITE_SUPABASE_URL": "@supabase-url",
-    "VITE_SUPABASE_ANON_KEY": "@supabase-anon-key",
+    "VITE_SUPABASE_URL": "https://pmncilppqnzacbplsdti.supabase.co",
+    "VITE_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBtbmNpbHBwcW56YWNicGxzZHRpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQyODI3MjYsImV4cCI6MjA3OTg1ODcyNn0.I1OjkHTluSMSs0-5-G4pXUHJH_LBB7UDuwDJ8ir6fhw",
     "VITE_ENVIRONMENT": "production"
   },
   "build": {
     "env": {
-      "VITE_SUPABASE_URL": "@supabase-url",
-      "VITE_SUPABASE_ANON_KEY": "@supabase-anon-key",
+      "VITE_SUPABASE_URL": "https://pmncilppqnzacbplsdti.supabase.co",
+      "VITE_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBtbmNpbHBwcW56YWNicGxzZHRpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQyODI3MjYsImV4cCI6MjA3OTg1ODcyNn0.I1OjkHTluSMSs0-5-G4pXUHJH_LBB7UDuwDJ8ir6fhw",
       "VITE_ENVIRONMENT": "production"
-    }
-  },
-  "functions": {
-    "app/api/**/*.js": {
-      "runtime": "nodejs18.x"
     }
   },
   "regions": ["iad1"],
