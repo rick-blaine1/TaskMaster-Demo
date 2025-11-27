@@ -28,6 +28,11 @@
 
 TaskMaster-Demo is a modern, single-page web application designed as a comprehensive task management prototype. The application demonstrates full-stack development capabilities with React, TypeScript, Tailwind CSS, and Supabase, deployed on Vercel for optimal performance and scalability.
 
+**📋 Related Documentation:**
+- **[Implementation Plan](IMPLEMENTATION_PLAN.md)** - Complete project roadmap and TDD framework
+- **[Build Task Balance Review](BUILD_TASK_BALANCE_REVIEW.md)** - Build pipeline optimization analysis
+- **[TDD Assessment Report](TDD_ASSESSMENT_REPORT.md)** - Test coverage gaps and implementation strategy
+
 ### Architecture Goals
 
 - **Simplicity**: Clean, maintainable codebase with clear separation of concerns
@@ -104,11 +109,12 @@ TaskMaster-Demo/
 
 1. **State Management**: Basic useState hooks may not scale for complex features
 2. **Error Handling**: Limited error boundary implementation
-3. **Testing**: No test suite currently implemented
+3. **Testing**: No test suite currently implemented - [See TDD Assessment](TDD_ASSESSMENT_REPORT.md)
 4. **Performance**: No code splitting or lazy loading
 5. **Accessibility**: Basic implementation, needs comprehensive audit
 6. **Monitoring**: No error tracking or performance monitoring
 7. **Caching**: No client-side caching strategy
+8. **Build Pipeline**: Critical issues identified - [See Build Analysis](BUILD_TASK_BALANCE_REVIEW.md)
 
 ---
 
@@ -344,9 +350,13 @@ export const api = new TaskAPI();
 
 ## Implementation Roadmap
 
+**📋 UPDATED ROADMAP**: This roadmap has been revised based on [Build Task Balance Review](BUILD_TASK_BALANCE_REVIEW.md) and [TDD Assessment Report](TDD_ASSESSMENT_REPORT.md) findings. See [Implementation Plan](IMPLEMENTATION_PLAN.md) for the complete updated timeline.
+
 ### Phase 1: Foundation Improvements (Week 1-2)
 
 **Priority: High | Effort: Medium | Risk: Low**
+
+**⚠️ CRITICAL PREREQUISITE**: Address build pipeline issues identified in [Build Task Balance Review](BUILD_TASK_BALANCE_REVIEW.md#critical-issues-identified) before proceeding with architectural enhancements.
 
 #### 1.1 Enhanced State Management
 - [ ] Install and configure React Query (`@tanstack/react-query@^5.8.4`)
@@ -428,9 +438,9 @@ export const api = new TaskAPI();
 #### 3.3 Testing Implementation
 - [ ] Install testing framework (`@testing-library/react@^13.4.0`)
 - [ ] Install Jest and testing utilities
-- [ ] Write unit tests for components
-- [ ] Write integration tests for API calls
-- [ ] Add E2E tests with Playwright
+- [ ] Write unit tests for components - [See TDD Assessment](TDD_ASSESSMENT_REPORT.md#component-layer-analysis)
+- [ ] Write integration tests for API calls - [See TDD Assessment](TDD_ASSESSMENT_REPORT.md#api-layer-analysis)
+- [ ] Add E2E tests with Playwright - [See Build Review](BUILD_TASK_BALANCE_REVIEW.md#missing-e2e-testing-infrastructure)
 - [ ] Set up CI/CD testing pipeline
 
 **Deliverables**:
@@ -864,6 +874,8 @@ Sentry.init({
 
 **Decision**: Testing framework and coverage requirements
 
+**📋 CURRENT STATUS**: [TDD Assessment Report](TDD_ASSESSMENT_REPORT.md) reveals 0% coverage across critical layers requiring immediate attention.
+
 **Options**:
 
 | Framework | Pros | Cons | Recommendation |
@@ -871,10 +883,11 @@ Sentry.init({
 | **Vitest + Testing Library** | Fast, Vite integration, modern | Newer ecosystem | ✅ **Recommended** |
 | **Jest + Testing Library** | Mature, extensive ecosystem | Slower, configuration overhead | Alternative |
 
-**Coverage Requirements**:
-- Minimum: 70% code coverage
-- Target: 85% code coverage
+**Coverage Requirements** (Updated based on [TDD Assessment](TDD_ASSESSMENT_REPORT.md#long-term-tdd-strategy)):
+- Minimum: 80% code coverage (increased from 70%)
+- Target: 90% code coverage (increased from 85%)
 - Critical paths: 100% coverage
+- **Current Status**: 0% component, hook, and API coverage
 
 **Impact**: Code quality, deployment confidence, development speed  
 **Timeline**: Decision needed by Week 3  

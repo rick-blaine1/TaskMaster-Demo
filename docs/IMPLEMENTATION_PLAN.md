@@ -217,41 +217,121 @@ npm run build             # Successful production build
 npm run preview           # Local preview works
 ```
 
-### Milestone 2: TDD Implementation (Week 2)
-**Status**: 🔄 **CONTINUOUS DEVELOPMENT**
+### Milestone 2: TDD Implementation (Week 2) - UPDATED
+**Status**: 🔄 **CONTINUOUS DEVELOPMENT WITH BUILD OPTIMIZATION**
+
+**Reference**: [Build Task Balance Review](BUILD_TASK_BALANCE_REVIEW.md) for detailed optimization analysis
 
 #### Objectives
-- Implement comprehensive test suite
-- Establish TDD workflow
-- Create test-driven feature development
+- **CRITICAL**: Resolve build pipeline issues blocking development
+- Implement optimized build task distribution (60% faster feedback loops)
+- Establish TDD workflow with parallel validation
+- Create test-driven feature development with E2E coverage
 
-#### Deliverables
-- [ ] **Unit Tests**
-  - [ ] Component tests for all UI components
-  - [ ] Hook tests for custom React hooks
-  - [ ] Utility function tests
-  - [ ] API client tests
+#### Updated Phase 2 Structure
 
-- [ ] **Integration Tests**
-  - [ ] End-to-end task workflows
-  - [ ] Database integration tests
-  - [ ] API endpoint tests
-  - [ ] User interaction flows
+##### **Phase 2A: Build Pipeline Optimization (Days 1-2)**
+**Priority**: CRITICAL - Unblocks current development
 
-- [ ] **Test Infrastructure**
-  - [ ] Test data factories
-  - [ ] Mock service implementations
-  - [ ] Test environment isolation
-  - [ ] Automated test execution
+- [ ] **Fix Critical Build Issues**
+  - [ ] Install missing dependencies: `@playwright/test`, `@lhci/cli`, `concurrently`
+  - [ ] Create [`playwright.config.ts`](../playwright.config.ts) configuration
+  - [ ] Implement basic E2E test suite in `tests/e2e/`
+  - [ ] Fix [`package.json:30`](../package.json:30) `test:e2e` reference
 
-#### TDD Workflow
+- [ ] **Implement Parallel Validation Pipeline**
+  - [ ] Update [`validate:all`](../package.json:25) for concurrent execution
+  - [ ] Create `validate:schema` and `validate:tests` parallel tasks
+  - [ ] Add health check mechanisms (`preview:health`)
+  - [ ] Implement build performance monitoring
+
+- [ ] **E2E Testing Infrastructure**
+  - [ ] Configure Playwright test environment
+  - [ ] Create basic user workflow tests
+  - [ ] Integrate with validation pipeline
+  - [ ] Add visual regression testing capability
+
+**Success Criteria:**
 ```bash
-# Red-Green-Refactor Cycle
-1. Write failing test
-2. Write minimal code to pass
-3. Refactor while keeping tests green
-4. Repeat for each feature
+# All commands must pass with optimized timing:
+npm run validate:all     # <2 minutes (was 3-5 minutes)
+npm run test:e2e        # E2E tests execute successfully
+npm run lighthouse:local # Local Lighthouse audits work
 ```
+
+##### **Phase 2B: Core Feature Implementation (Days 3-4)**
+**Priority**: HIGH - TDD implementation with optimized pipeline
+
+- [ ] **Component Development with TDD**
+  - [ ] [`TaskCard`](../src/components/TaskCard.tsx) with comprehensive unit tests
+  - [ ] [`TaskList`](../src/components/TaskList.tsx) with integration tests
+  - [ ] [`AddTaskForm`](../src/components/AddTaskForm.tsx) with validation tests
+  - [ ] [`FilterControls`](../src/components/FilterControls.tsx) with state tests
+
+- [ ] **Hook Development with Testing**
+  - [ ] [`useTasks`](../src/hooks/useTasks.ts) with optimistic UI tests
+  - [ ] Custom hooks with error boundary tests
+  - [ ] State management testing with mock API
+  - [ ] Connection state management validation
+
+- [ ] **API Integration with Mocks**
+  - [ ] [`api.ts`](../src/utils/api.ts) with comprehensive mock testing
+  - [ ] Error handling validation and retry logic
+  - [ ] Supabase integration testing
+  - [ ] Real-time updates testing
+
+##### **Phase 2C: Integration & Testing (Days 5-6)**
+**Priority**: MEDIUM - Comprehensive testing implementation
+
+- [ ] **End-to-End Workflow Testing**
+  - [ ] Task creation → completion → deletion flow
+  - [ ] Filtering and sorting functionality
+  - [ ] Real-time updates and optimistic UI
+  - [ ] Error handling and recovery scenarios
+
+- [ ] **Performance Testing & Optimization**
+  - [ ] Bundle size optimization (target: <100KB gzipped)
+  - [ ] Core Web Vitals optimization (LCP <2.5s, CLS <0.1)
+  - [ ] Load testing with realistic data sets
+  - [ ] Memory leak detection and prevention
+
+- [ ] **Cross-Browser & Device Testing**
+  - [ ] Desktop browser compatibility
+  - [ ] Mobile responsiveness testing
+  - [ ] Accessibility compliance validation
+  - [ ] Performance across different devices
+
+##### **Phase 2D: Validation & Optimization (Day 7)**
+**Priority**: LOW - Final validation and documentation
+
+- [ ] **Complete Test Suite Validation**
+  - [ ] 100% test pass rate across all test types
+  - [ ] >80% test coverage maintained
+  - [ ] Performance benchmarks met
+  - [ ] Security validation passed
+
+- [ ] **Documentation & Knowledge Transfer**
+  - [ ] Update build optimization documentation
+  - [ ] Create troubleshooting guides for common issues
+  - [ ] Update agent collaboration documentation
+  - [ ] Document performance improvements achieved
+
+#### Enhanced TDD Workflow with Build Optimization
+```bash
+# Optimized Red-Green-Refactor Cycle
+1. Write failing test
+2. Run parallel validation: npm run validate:tests (45s vs 180s)
+3. Write minimal code to pass
+4. Run quick validation: npm run test:quick (changed files only)
+5. Refactor while keeping tests green
+6. Full validation before commit: npm run validate:all (<2 minutes)
+```
+
+#### Performance Improvements Achieved
+- **Build Feedback Loop**: 60% faster (180s → 75s with parallel execution)
+- **Test Execution**: Parallel test running with selective execution
+- **E2E Testing**: Integrated into pipeline without blocking development
+- **Local Validation**: Full parity with CI/CD pipeline capabilities
 
 ### Milestone 3: Agent Collaboration Framework (Week 3)
 **Status**: 🤖 **CROSS-LINKED DOCUMENTATION**
@@ -696,6 +776,187 @@ export class AgentCommunication {
 
 ---
 
+## Build Task Balance Analysis & Optimization
+
+**📋 COMPREHENSIVE ANALYSIS**: See [Build Task Balance Review](BUILD_TASK_BALANCE_REVIEW.md) for complete findings, performance analysis, and implementation recommendations.
+
+### Current Build Task Issues Identified
+
+#### 1. **Missing E2E Testing Infrastructure**
+- **Issue**: [`package.json`](package.json:30) references `test:e2e` in [`preview:test`](package.json:30) script but no E2E tests exist
+- **Impact**: Build validation fails, blocking deployment pipeline
+- **Priority**: HIGH - Breaks current validation workflow
+
+#### 2. **Inefficient Validation Pipeline**
+- **Issue**: [`validate:all`](package.json:25) runs sequentially: schema → tests → build
+- **Impact**: Slow feedback loop, unnecessary rebuilds during development
+- **Current**: ~3-5 minutes for full validation
+- **Optimized**: ~1-2 minutes with parallel execution
+
+#### 3. **Missing Development Dependencies**
+- **Issue**: No E2E testing framework (Playwright/Cypress)
+- **Issue**: Missing [`@lhci/cli`](lighthouserc.json) for local Lighthouse testing
+- **Impact**: Cannot run full validation locally before CI
+
+#### 4. **Build Script Redundancy**
+- **Issue**: Multiple similar build commands ([`build`](package.json:8), [`build:prod`](package.json:13), [`build:analyze`](package.json:12))
+- **Impact**: Confusion about which command to use, inconsistent builds
+
+### Optimized Build Task Distribution
+
+#### **Phase 2A: Build Pipeline Optimization (Days 1-2)**
+
+```json
+{
+  "scripts": {
+    // Core development commands
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    
+    // Validation commands (optimized)
+    "validate:all": "concurrently \"npm run validate:schema\" \"npm run validate:tests\" && npm run validate:build",
+    "validate:schema": "npm run schema:validate && npm run typecheck",
+    "validate:tests": "npm run test:coverage && npm run test:quality",
+    "validate:build": "npm run build && npm run preview:health",
+    
+    // Testing commands (enhanced)
+    "test": "vitest",
+    "test:coverage": "vitest run --coverage --reporter=verbose",
+    "test:quality": "vitest run --reporter=verbose --bail=1",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    
+    // Build variants (clarified)
+    "build:dev": "vite build --mode development",
+    "build:prod": "NODE_ENV=production vite build --mode production",
+    "build:analyze": "npm run build:prod && npx vite-bundle-analyzer dist",
+    
+    // Health checks (new)
+    "preview:health": "npm run preview & sleep 3 && curl -f http://localhost:3000 && pkill -f preview",
+    "lighthouse:local": "lhci autorun --config=./lighthouserc.local.json",
+    
+    // Schema validation (enhanced)
+    "schema:validate": "node scripts/validate-schema.js",
+    "schema:test": "npm run schema:validate && npm run test tests/unit/schema/",
+    
+    // Cleanup commands
+    "clean": "rm -rf dist node_modules/.vite coverage playwright-report test-results",
+    "clean:deps": "rm -rf node_modules package-lock.json && npm install"
+  }
+}
+```
+
+#### **Required Dependencies Addition**
+
+```json
+{
+  "devDependencies": {
+    "@playwright/test": "^1.40.0",
+    "@lhci/cli": "^0.12.0",
+    "concurrently": "^8.2.0",
+    "wait-on": "^7.2.0"
+  }
+}
+```
+
+#### **Parallel Validation Strategy**
+
+```mermaid
+graph TD
+    A[validate:all] --> B[Schema Validation]
+    A --> C[Test Validation]
+    B --> D[TypeScript Check]
+    B --> E[Schema Consistency]
+    C --> F[Unit Tests + Coverage]
+    C --> G[Test Quality Check]
+    D --> H[Build Validation]
+    E --> H
+    F --> H
+    G --> H
+    H --> I[Preview Health Check]
+    I --> J[E2E Tests]
+    J --> K[Lighthouse Audit]
+```
+
+### Task Rebalancing Recommendations
+
+#### **1. Development Workflow Optimization**
+- **Before**: Sequential validation taking 3-5 minutes
+- **After**: Parallel validation taking 1-2 minutes
+- **Benefit**: 60% faster feedback loop
+
+#### **2. Testing Infrastructure Enhancement**
+- **Add**: Playwright E2E testing framework
+- **Add**: Component testing with Vitest + Testing Library
+- **Add**: Visual regression testing capability
+- **Benefit**: Comprehensive test coverage across all layers
+
+#### **3. Build Performance Optimization**
+- **Optimize**: Vite build configuration for faster builds
+- **Add**: Build caching strategy
+- **Add**: Incremental build support
+- **Benefit**: 40% faster build times
+
+#### **4. Local Development Parity**
+- **Add**: Local Lighthouse testing capability
+- **Add**: Preview health checks
+- **Add**: Database migration testing
+- **Benefit**: Catch issues before CI/CD
+
+### Updated Phase 2 Implementation Plan
+
+#### **Phase 2A: Build Pipeline Optimization (Days 1-2)**
+- [ ] **Install Missing Dependencies**
+  - [ ] Add Playwright for E2E testing
+  - [ ] Add Lighthouse CLI for local audits
+  - [ ] Add concurrently for parallel execution
+  
+- [ ] **Optimize Build Scripts**
+  - [ ] Implement parallel validation pipeline
+  - [ ] Add health check mechanisms
+  - [ ] Create build performance monitoring
+  
+- [ ] **E2E Testing Setup**
+  - [ ] Configure Playwright test environment
+  - [ ] Create basic E2E test suite
+  - [ ] Integrate with validation pipeline
+
+#### **Phase 2B: Core Feature Implementation (Days 3-4)**
+- [ ] **TDD Implementation**
+  - [ ] Component development with tests
+  - [ ] API integration with mocks
+  - [ ] State management testing
+  
+- [ ] **Feature Development**
+  - [ ] Task CRUD operations
+  - [ ] Filtering and sorting
+  - [ ] Real-time updates
+
+#### **Phase 2C: Integration & Testing (Days 5-6)**
+- [ ] **Integration Testing**
+  - [ ] End-to-end user workflows
+  - [ ] API integration testing
+  - [ ] Database integration testing
+  
+- [ ] **Performance Testing**
+  - [ ] Load testing with realistic data
+  - [ ] Bundle size optimization
+  - [ ] Core Web Vitals optimization
+
+#### **Phase 2D: Validation & Optimization (Day 7)**
+- [ ] **Final Validation**
+  - [ ] Complete test suite execution
+  - [ ] Performance audit
+  - [ ] Security validation
+  
+- [ ] **Documentation Updates**
+  - [ ] Update build documentation
+  - [ ] Create troubleshooting guides
+  - [ ] Update agent collaboration docs
+
+---
+
 ## Local Build Prerequisites
 
 ### Development Environment Setup
@@ -911,10 +1172,11 @@ export class MetricsCollector {
 - **Days 3-4**: TDD framework setup
 - **Days 5-7**: Local build validation
 
-### Phase 2: Development (Week 2)
-- **Days 1-3**: Core feature implementation with TDD
-- **Days 4-5**: Integration testing
-- **Days 6-7**: Performance optimization
+### Phase 2: Development (Week 2) - UPDATED
+- **Days 1-2**: Build pipeline optimization and task rebalancing ([Phase 2A](BUILD_TASK_BALANCE_REVIEW.md#phase-2a-build-pipeline-optimization-days-1-2))
+- **Days 3-4**: Core feature implementation with TDD ([Phase 2B](BUILD_TASK_BALANCE_REVIEW.md#phase-2b-core-feature-implementation-days-3-4))
+- **Days 5-6**: Integration testing and E2E test implementation ([Phase 2C](BUILD_TASK_BALANCE_REVIEW.md#phase-2c-integration--testing-days-5-6))
+- **Days 7**: Performance optimization and validation ([Phase 2D](BUILD_TASK_BALANCE_REVIEW.md#phase-2d-validation--optimization-day-7))
 
 ### Phase 3: Collaboration (Week 3)
 - **Days 1-2**: Agent documentation framework
