@@ -1,11 +1,19 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import { resolve } from 'path';
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
   optimizeDeps: {
     exclude: ['lucide-react'],
+  },
+  resolve: {
+    alias: {
+      '@': resolve(__dirname, './src'),
+      '@/schema': resolve(__dirname, './schema'),
+      '@/tests': resolve(__dirname, './tests'),
+    },
   },
   build: {
     target: 'esnext',
