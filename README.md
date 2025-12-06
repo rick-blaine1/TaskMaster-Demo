@@ -1,6 +1,6 @@
 # TaskMaster-Demo
 
-A modern task management application built with React, TypeScript, and Supabase, following Test-Driven Development (TDD) principles and optimized build processes.
+A modern task management application built with React, TypeScript, and Supabase, following Test-Driven Development (TDD) principles and optimized build processes. THis was a project that came out of the 021 Event's Agentic AI: From Zero to One for Product Managers workshop.
 
 ## 📋 Project Status
 
