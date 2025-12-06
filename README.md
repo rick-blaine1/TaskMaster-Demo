@@ -1,6 +1,8 @@
+This was a project that came out of the 021 Event's Agentic AI: From Zero to One for Product Managers workshop.
+
 # TaskMaster-Demo
 
-A modern task management application built with React, TypeScript, and Supabase, following Test-Driven Development (TDD) principles and optimized build processes. THis was a project that came out of the 021 Event's Agentic AI: From Zero to One for Product Managers workshop.
+A modern task management application built with React, TypeScript, and Supabase, following Test-Driven Development (TDD) principles and optimized build processes. 
 
 ## 📋 Project Status
 
